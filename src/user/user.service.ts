@@ -30,8 +30,6 @@ export class UserService {
       return await this.prisma.user.findUnique({
         where: { email },
       });
-
-      
     } catch (error) {
       return { message: 'Erro ao buscar usuario pelo email!' };
     }

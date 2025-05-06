@@ -12,7 +12,7 @@ export class StudentService {
   async create(
     createStudentDto: CreateStudentDto,
   ): Promise<StudentResponseDto> {
-    const firstUniqueLetter = getFirstUniqueLetter(createStudentDto.name.toLocaleLowerCase());
+    const firstUniqueLetter = getFirstUniqueLetter(createStudentDto.name);
 
     const student = await this.prisma.student.create({
       data: {
