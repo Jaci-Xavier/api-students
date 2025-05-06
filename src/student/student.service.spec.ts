@@ -120,20 +120,21 @@ describe('StudentService', () => {
       grade: 90,
       firstUniqueLetter: getFirstUniqueLetter('Alice'),
     };
-
+  
     const spy = jest
       .spyOn(
         require('../common/utils/get-first-unique.util'),
         'getFirstUniqueLetter',
       )
       .mockReturnValue('A');
-
+  
     await service.create(data);
-
+  
     expect(spy).toHaveBeenCalledWith('Alice');
-
+  
     spy.mockRestore();
   });
+  
 
   it('deve usar o nome atual do estudante se nome não for fornecido no update', async () => {
     const updateStudentDto: UpdateStudentDto = { grade: 95 };
