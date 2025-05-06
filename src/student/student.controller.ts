@@ -1,10 +1,25 @@
-import { Controller, Post, Get, Param, Body, UseGuards, HttpCode, Put, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Get,
+  Param,
+  Body,
+  UseGuards,
+  HttpCode,
+  Put,
+  Delete,
+} from '@nestjs/common';
 import { StudentService } from './student.service';
 import { CreateStudentDto } from './dto/create-student.dto';
 import { UpdateStudentDto } from './dto/update-student.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { StudentResponseDto } from './dto/students.dto';
-import { ApiOkResponse, ApiCreatedResponse, ApiTags, ApiNoContentResponse } from '@nestjs/swagger';
+import {
+  ApiOkResponse,
+  ApiCreatedResponse,
+  ApiTags,
+  ApiNoContentResponse,
+} from '@nestjs/swagger';
 
 @ApiTags('students')
 @Controller('students')
@@ -15,7 +30,9 @@ export class StudentController {
   @Post()
   @HttpCode(201)
   @ApiCreatedResponse({ type: StudentResponseDto })
-  async create(@Body() createStudentDto: CreateStudentDto): Promise<StudentResponseDto> {
+  async create(
+    @Body() createStudentDto: CreateStudentDto,
+  ): Promise<StudentResponseDto> {
     return this.studentService.create(createStudentDto);
   }
 

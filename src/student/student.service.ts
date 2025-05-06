@@ -9,7 +9,9 @@ import { getFirstUniqueLetter } from '../common/utils/get-first-unique.util';
 export class StudentService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(createStudentDto: CreateStudentDto): Promise<StudentResponseDto> {
+  async create(
+    createStudentDto: CreateStudentDto,
+  ): Promise<StudentResponseDto> {
     const firstUniqueLetter = getFirstUniqueLetter(createStudentDto.name);
 
     const student = await this.prisma.student.create({
@@ -53,7 +55,10 @@ export class StudentService {
     }));
   }
 
-  async update(id: number, updateStudentDto: UpdateStudentDto): Promise<StudentResponseDto> {
+  async update(
+    id: number,
+    updateStudentDto: UpdateStudentDto,
+  ): Promise<StudentResponseDto> {
     const student = await this.prisma.student.findUnique({ where: { id } });
 
     if (!student) {
@@ -64,7 +69,9 @@ export class StudentService {
       where: { id },
       data: {
         ...updateStudentDto,
-        firstUniqueLetter: getFirstUniqueLetter(updateStudentDto.name || student.name),
+        firstUniqueLetter: getFirstUniqueLetter(
+          updateStudentDto.name || student.name,
+        ),
       },
     });
 

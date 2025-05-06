@@ -11,7 +11,8 @@ export class CreateStudentDto {
   name: string;
 
   @ApiProperty({
-    description: 'Nota do estudante (de 0.0 a 10.0, com no máximo uma casa decimal)',
+    description:
+      'Nota do estudante (de 0.0 a 10.0, com no máximo uma casa decimal)',
     example: 8.5,
     minimum: 0,
     maximum: 10,

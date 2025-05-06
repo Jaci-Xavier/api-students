@@ -19,7 +19,9 @@ describe('Students E2E', () => {
     prisma = app.get<PrismaService>(PrismaService);
     // Limpa a tabela e insere dados de teste
     await prisma.student.deleteMany();
-    await prisma.student.create({ data: { name: 'Test Student', grade: 90, firstUniqueLetter: 'T' } });
+    await prisma.student.create({
+      data: { name: 'Test Student', grade: 90, firstUniqueLetter: 'T' },
+    });
   });
 
   afterAll(async () => {
@@ -40,7 +42,9 @@ describe('Students E2E', () => {
       throw new Error('Nenhum estudante encontrado no banco de dados.');
     }
 
-    const res = await request(app.getHttpServer()).get(`/students/${student.id}`);
+    const res = await request(app.getHttpServer()).get(
+      `/students/${student.id}`,
+    );
     expect(res.status).toBe(200);
     expect(res.body.id).toBe(student.id);
     expect(res.body.name).toBe(student.name);

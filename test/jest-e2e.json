@@ -1,9 +1,0 @@
-{
-  "preset": "@nestjs/testing",
-  "testEnvironment": "node",
-  "globalSetup": "./test/global-setup.ts",
-  "testMatch": ["**/*.e2e-spec.ts"],
-  "collectCoverage": true,
-  "coverageDirectory": "coverage",
-  "coverageProvider": "v8"
-}

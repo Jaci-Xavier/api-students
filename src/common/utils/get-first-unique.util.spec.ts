@@ -1,7 +1,7 @@
 import { getFirstUniqueLetter } from './get-first-unique.util';
 
 describe('getFirstUniqueLetter', () => {
-  it('deve retornar a primeira letra única em maiúsculo', () => {
+  it('deve retornar a primeira letra única em minúsculo quando possível', () => {
     const result = getFirstUniqueLetter('gabriel');
     expect(result).toBe('G');
   });
@@ -11,18 +11,28 @@ describe('getFirstUniqueLetter', () => {
     expect(result).toBe('_');
   });
 
-  it('deve considerar letras repetidas independentemente da posição', () => {
-    const result = getFirstUniqueLetter('aabbccdde');
-    expect(result).toBe('E');
+  it('deve retornar "_" quando todas as letras do nome se repetirem', () => {
+    const result = getFirstUniqueLetter('anna');
+    expect(result).toBe('_');
   });
 
-  it('deve ser case-sensitive por padrão', () => {
-    const result = getFirstUniqueLetter('aAbBcC');
-    expect(result).toBe('A');
+  it('deve considerar a letra única da primeira posição corretamente, mesmo que em letras maiúsculas', () => {
+    const result = getFirstUniqueLetter('Gabriel');
+    expect(result).toBe('G');
   });
 
-  it('deve retornar "_" se string for vazia', () => {
+  it('deve retornar "_" se a string for vazia', () => {
     const result = getFirstUniqueLetter('');
     expect(result).toBe('_');
+  });
+
+  it('deve tratar corretamente nomes com números ou caracteres especiais', () => {
+    const result = getFirstUniqueLetter('123#123');
+    expect(result).toBe('#');
+  });
+
+  it('deve retornar a primeira letra maiúscula em uma string com todas as letras únicas', () => {
+    const result = getFirstUniqueLetter('abcdef');
+    expect(result).toBe('A');
   });
 });

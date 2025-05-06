@@ -10,6 +10,9 @@ export class StudentResponseDto {
   @ApiProperty({ example: 8.5 })
   grade: number;
 
-  @ApiProperty({ example: 'g', description: 'Primeira letra única do nome ou "_" se não houver' })
+  @ApiProperty({
+    example: 'g',
+    description: 'Primeira letra única do nome ou "_" se não houver',
+  })
   firstUniqueLetter: string;
 }

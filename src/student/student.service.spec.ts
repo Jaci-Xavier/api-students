@@ -9,7 +9,12 @@ describe('StudentService', () => {
   let service: StudentService;
   let prisma: Partial<PrismaService>;
 
-  const mockStudent = { id: 1, name: 'Alice', grade: 90, firstUniqueLetter: getFirstUniqueLetter('Alice') };
+  const mockStudent = {
+    id: 1,
+    name: 'Alice',
+    grade: 90,
+    firstUniqueLetter: getFirstUniqueLetter('Alice'),
+  };
   const mockStudents = [mockStudent];
 
   beforeEach(async () => {
@@ -24,17 +29,18 @@ describe('StudentService', () => {
     } as unknown as PrismaService;
 
     const module: TestingModule = await Test.createTestingModule({
-      providers: [
-        StudentService,
-        { provide: PrismaService, useValue: prisma },
-      ],
+      providers: [StudentService, { provide: PrismaService, useValue: prisma }],
     }).compile();
 
     service = module.get<StudentService>(StudentService);
   });
 
   it('deve criar um estudante', async () => {
-    const data = { name: 'Alice', grade: 90, firstUniqueLetter: getFirstUniqueLetter('Alice') };
+    const data = {
+      name: 'Alice',
+      grade: 90,
+      firstUniqueLetter: getFirstUniqueLetter('Alice'),
+    };
     (prisma.student?.create as jest.Mock).mockResolvedValue(mockStudent);
 
     const result = await service.create(data);
@@ -54,7 +60,9 @@ describe('StudentService', () => {
     (prisma.student?.findUnique as jest.Mock).mockResolvedValue(mockStudent);
 
     const result = await service.findOne(1);
-    expect(prisma.student?.findUnique).toHaveBeenCalledWith({ where: { id: 1 } });
+    expect(prisma.student?.findUnique).toHaveBeenCalledWith({
+      where: { id: 1 },
+    });
     expect(result).toEqual(mockStudent);
   });
 
@@ -65,7 +73,10 @@ describe('StudentService', () => {
   });
 
   it('deve atualizar um estudante', async () => {
-    const updateStudentDto: UpdateStudentDto = { name: 'Alice Updated', grade: 95 };
+    const updateStudentDto: UpdateStudentDto = {
+      name: 'Alice Updated',
+      grade: 95,
+    };
     const updatedStudent = { ...mockStudent, ...updateStudentDto };
 
     (prisma.student?.update as jest.Mock).mockResolvedValue(updatedStudent);
@@ -73,7 +84,10 @@ describe('StudentService', () => {
     const result = await service.update(1, updateStudentDto);
     expect(prisma.student?.update).toHaveBeenCalledWith({
       where: { id: 1 },
-      data: { ...updateStudentDto, firstUniqueLetter: getFirstUniqueLetter('Alice Updated') },
+      data: {
+        ...updateStudentDto,
+        firstUniqueLetter: getFirstUniqueLetter('Alice Updated'),
+      },
     });
     expect(result).toEqual(updatedStudent);
   });
@@ -81,7 +95,9 @@ describe('StudentService', () => {
   it('deve lançar um erro se tentar atualizar um estudante não encontrado', async () => {
     (prisma.student?.findUnique as jest.Mock).mockResolvedValue(null);
 
-    await expect(service.update(999, { name: 'NotFound', grade: 100 })).rejects.toThrow(NotFoundException);
+    await expect(
+      service.update(999, { name: 'NotFound', grade: 100 }),
+    ).rejects.toThrow(NotFoundException);
   });
 
   it('deve remover um estudante', async () => {
@@ -99,9 +115,18 @@ describe('StudentService', () => {
   });
 
   it('deve chamar getFirstUniqueLetter durante a criação do estudante', async () => {
-    const data = { name: 'Alice', grade: 90, firstUniqueLetter: getFirstUniqueLetter('Alice') };
+    const data = {
+      name: 'Alice',
+      grade: 90,
+      firstUniqueLetter: getFirstUniqueLetter('Alice'),
+    };
 
-    const spy = jest.spyOn(require('../common/utils/get-first-unique.util'), 'getFirstUniqueLetter').mockReturnValue('A');
+    const spy = jest
+      .spyOn(
+        require('../common/utils/get-first-unique.util'),
+        'getFirstUniqueLetter',
+      )
+      .mockReturnValue('A');
 
     await service.create(data);
 
@@ -117,10 +142,10 @@ describe('StudentService', () => {
       grade: updateStudentDto.grade,
       firstUniqueLetter: getFirstUniqueLetter(mockStudent.name),
     };
-  
+
     (prisma.student?.findUnique as jest.Mock).mockResolvedValue(mockStudent);
     (prisma.student?.update as jest.Mock).mockResolvedValue(updatedStudent);
-  
+
     const result = await service.update(1, updateStudentDto);
     expect(prisma.student?.update).toHaveBeenCalledWith({
       where: { id: 1 },
@@ -131,5 +156,30 @@ describe('StudentService', () => {
     });
     expect(result).toEqual(updatedStudent);
   });
-  
+
+  it('deve calcular a letra única com base no nome atual se nome não for enviado no update', async () => {
+    const updateStudentDto: UpdateStudentDto = { grade: 95 }; // nome não fornecido
+    const expectedFirstUnique = getFirstUniqueLetter(mockStudent.name);
+
+    const updatedStudent = {
+      ...mockStudent,
+      grade: updateStudentDto.grade,
+      firstUniqueLetter: expectedFirstUnique,
+    };
+
+    (prisma.student?.findUnique as jest.Mock).mockResolvedValue(mockStudent);
+    (prisma.student?.update as jest.Mock).mockResolvedValue(updatedStudent);
+
+    const result = await service.update(mockStudent.id, updateStudentDto);
+
+    expect(prisma.student?.update).toHaveBeenCalledWith({
+      where: { id: mockStudent.id },
+      data: {
+        ...updateStudentDto,
+        firstUniqueLetter: expectedFirstUnique,
+      },
+    });
+
+    expect(result).toEqual(updatedStudent);
+  });
 });

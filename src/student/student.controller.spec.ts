@@ -10,13 +10,13 @@ describe('StudentController', () => {
   let controller: StudentController;
   let service: StudentService;
 
-  const mockStudent = { 
-    id: 1, 
-    name: 'Alice', 
-    grade: 90, 
-    firstUniqueLetter: getFirstUniqueLetter('Alice') 
+  const mockStudent = {
+    id: 1,
+    name: 'Alice',
+    grade: 90,
+    firstUniqueLetter: getFirstUniqueLetter('Alice'),
   };
-  
+
   const mockStudents = [mockStudent];
 
   beforeEach(async () => {
@@ -52,7 +52,12 @@ describe('StudentController', () => {
 
   it('deve criar um estudante', async () => {
     const createStudentDto: CreateStudentDto = { name: 'Alice', grade: 90 };
-    const result: StudentResponseDto = { id: 1, name: 'Alice', grade: 90, firstUniqueLetter: getFirstUniqueLetter('Alice') };
+    const result: StudentResponseDto = {
+      id: 1,
+      name: 'Alice',
+      grade: 90,
+      firstUniqueLetter: getFirstUniqueLetter('Alice'),
+    };
 
     jest.spyOn(service, 'create').mockResolvedValue(result);
 
@@ -60,8 +65,16 @@ describe('StudentController', () => {
   });
 
   it('deve atualizar um estudante', async () => {
-    const updateStudentDto: UpdateStudentDto = { name: 'Alice Updated', grade: 95 };
-    const result: StudentResponseDto = { id: 1, name: 'Alice Updated', grade: 95, firstUniqueLetter: getFirstUniqueLetter('Alice Updated') };
+    const updateStudentDto: UpdateStudentDto = {
+      name: 'Alice Updated',
+      grade: 95,
+    };
+    const result: StudentResponseDto = {
+      id: 1,
+      name: 'Alice Updated',
+      grade: 95,
+      firstUniqueLetter: getFirstUniqueLetter('Alice Updated'),
+    };
 
     jest.spyOn(service, 'update').mockResolvedValue(result);
 
