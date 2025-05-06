@@ -35,7 +35,6 @@ export class UserService {
         }
     }
 
-    // Método de exclusão de usuário
     async delete(data: DeleteUserDto) {
         return await this.prisma.$transaction(async (prisma) => {
             try {

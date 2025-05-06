@@ -109,4 +109,27 @@ describe('StudentService', () => {
 
     spy.mockRestore();
   });
+
+  it('deve usar o nome atual do estudante se nome não for fornecido no update', async () => {
+    const updateStudentDto: UpdateStudentDto = { grade: 95 };
+    const updatedStudent = {
+      ...mockStudent,
+      grade: updateStudentDto.grade,
+      firstUniqueLetter: getFirstUniqueLetter(mockStudent.name),
+    };
+  
+    (prisma.student?.findUnique as jest.Mock).mockResolvedValue(mockStudent);
+    (prisma.student?.update as jest.Mock).mockResolvedValue(updatedStudent);
+  
+    const result = await service.update(1, updateStudentDto);
+    expect(prisma.student?.update).toHaveBeenCalledWith({
+      where: { id: 1 },
+      data: {
+        ...updateStudentDto,
+        firstUniqueLetter: getFirstUniqueLetter(mockStudent.name),
+      },
+    });
+    expect(result).toEqual(updatedStudent);
+  });
+  
 });

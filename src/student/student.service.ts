@@ -23,7 +23,7 @@ export class StudentService {
       id: student.id,
       name: student.name,
       grade: student.grade,
-      firstUniqueLetter: student.firstUniqueLetter || '_',
+      firstUniqueLetter: student.firstUniqueLetter,
     };
   }
 
@@ -38,7 +38,7 @@ export class StudentService {
       id: student.id,
       name: student.name,
       grade: student.grade,
-      firstUniqueLetter: student.firstUniqueLetter || '_',
+      firstUniqueLetter: student.firstUniqueLetter,
     };
   }
 
@@ -49,7 +49,7 @@ export class StudentService {
       id: student.id,
       name: student.name,
       grade: student.grade,
-      firstUniqueLetter: student.firstUniqueLetter || '_',
+      firstUniqueLetter: student.firstUniqueLetter,
     }));
   }
 
@@ -72,7 +72,7 @@ export class StudentService {
       id: updatedStudent.id,
       name: updatedStudent.name,
       grade: updatedStudent.grade,
-      firstUniqueLetter: updatedStudent.firstUniqueLetter || '_',
+      firstUniqueLetter: updatedStudent.firstUniqueLetter,
     };
   }
 

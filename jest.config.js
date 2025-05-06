@@ -8,5 +8,10 @@ module.exports = {
     collectCoverage: true,
     coverageDirectory: '../coverage',
     coverageProvider: 'v8',
+    coveragePathIgnorePatterns: [
+      '/node_modules/',
+      'src/prisma/*',
+    ],
+    
   };
   

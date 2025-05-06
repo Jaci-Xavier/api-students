@@ -1,4 +1,4 @@
-import { IsString, IsNumber, IsOptional } from 'class-validator';
+import { IsString, IsNumber, IsOptional, Max, Min } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class UpdateStudentDto {
@@ -20,5 +20,7 @@ export class UpdateStudentDto {
   })
   @IsOptional()
   @IsNumber({ allowInfinity: false, allowNaN: false, maxDecimalPlaces: 1 })
+  @Min(0)
+  @Max(10)
   grade?: number;
 }
