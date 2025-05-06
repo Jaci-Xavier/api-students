@@ -79,20 +79,58 @@ npm run test:cov
 1. Certifique-se de que a API está rodando (`npm run start:dev`).
 2. Faça chamadas HTTP para os endpoints. Exemplos:
 
-### `POST /student`
+### `Post /login`
+
+```json
+{
+  "email": "gabriel@example.com",
+  "password": "123456"
+}
+```
+
+Copie o token que é retornado pela api.
+
+## `O token retornado deve ser passado para todas as proximas rotas`
+
+Abra a aba `Auth` vá até a opção `Bearer token` e cole o token copiado no retorno do login
+
+### `POST /students`
 
 ```json
 {
   "name": "Gabriel",
-  "email": "gabriel@example.com"
+  "grade": 8
 }
 ```
 
-### `GET /student`
+### `GET /students`
 
-Retorna a lista de estudantes.
+Retorna a lista de estudantes, exemplo:
 
-### `PATCH /student/:id`
+```json
+[
+  {
+    "id": 3,
+    "name": "Anna",
+    "grade": 10,
+    "firstUniqueLetter": "_"
+  },
+  {
+    "id": 4,
+    "name": "Antônia",
+    "grade": 10,
+    "firstUniqueLetter": "T"
+  },
+  {
+    "id": 5,
+    "name": "Celeste",
+    "grade": 5,
+    "firstUniqueLetter": "C"
+  }
+]
+```
+
+### `PATCH /students/:id`
 
 ```json
 {
@@ -100,7 +138,7 @@ Retorna a lista de estudantes.
 }
 ```
 
-### `DELETE /student/:id`
+### `DELETE /students/:id`
 
 Remove um estudante por ID.
 
