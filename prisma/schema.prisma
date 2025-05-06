@@ -6,7 +6,6 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../generated/prisma"
 }
 
 datasource db {
@@ -25,10 +24,12 @@ model User {
 }
 
 model Student {
-  id          String   @id @default(cuid())
-  name        String
-  grade       Float
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id                Int     @id @default(autoincrement())
+  name              String
+  grade             Int
+  firstUniqueLetter String
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
 }
+
 

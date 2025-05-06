@@ -1,21 +1,21 @@
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "../prisma/prisma.service";
-import { CreateUsuarioDto } from "./dto/create-user.dto";
+import { CreateUserDto } from "./dto/create-user.dto";
 import { hashPassword } from "../common/utils/bcrypt.util";
-
+import { DeleteUserDto } from "./dto/delete-user.dto"; 
 
 @Injectable()
 export class UserService {
     constructor(private prisma: PrismaService) {}
 
-    async create(data: CreateUsuarioDto) {
+    async create(data: CreateUserDto) {
         return await this.prisma.$transaction(async (prisma) => {
             try {
-                const hashedPassword = await hashPassword(data.senha);
-                const usuario = await prisma.usuarios.create({
+                const hashedPassword = await hashPassword(data.password);
+                const usuario = await prisma.user.create({
                     data: {
                         ...data,
-                        senha: hashedPassword,
+                        password: hashedPassword,
                     },
                 });
                 return { message: "Usuario criado com sucesso!", usuario };
@@ -25,10 +25,9 @@ export class UserService {
         });
     }
     
-    
     async findByEmail(email: string) {
         try {
-            return await this.prisma.usuarios.findUnique({
+            return await this.prisma.user.findUnique({
                 where: { email },
             });
         } catch (error) {
@@ -36,10 +35,12 @@ export class UserService {
         }
     }
 
-    async delete(id: string) {
+    // Método de exclusão de usuário
+    async delete(data: DeleteUserDto) {
         return await this.prisma.$transaction(async (prisma) => {
             try {
-                await prisma.usuarios.delete({
+                const { id } = data;
+                await prisma.user.delete({
                     where: { id },
                 });
                 return { message: "Usuario deletado com sucesso!" };

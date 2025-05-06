@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, NotFoundException, UnauthorizedException } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { UserService } from "../user/user.service";
 import { comparePassword } from "../common/utils/bcrypt.util";
 import { generateToken } from "../common/utils/jwt.util";
@@ -14,22 +14,17 @@ export class AuthService {
 
         const user = await this.userService.findByEmail(email);
 
-        if (!user) {
+        if (!user || 'message' in user) {
             return { message: "Usuário não encontrado" };
         }
 
-        if (!user.senha) {
-            return { message: "É preciso digitar uma senha" };
-        }
-
-        const isPasswordValid = await comparePassword(password, user.senha);
+        const isPasswordValid = await comparePassword(password, user.password!);
 
         if (!isPasswordValid) {
             return { message: "Senha inválida" };
         }
 
         const token = generateToken({ id: user.id, email: user.email });
-
         return { token };
     }
 }

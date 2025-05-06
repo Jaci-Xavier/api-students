@@ -1,5 +1,5 @@
 import * as jwt from 'jsonwebtoken';
-import { jwtConstants } from 'src/auth/constants';
+import { jwtConstants } from '../../auth/constants';
 
 
 export function generateToken(payload: object): string {
