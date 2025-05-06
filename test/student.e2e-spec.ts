@@ -17,7 +17,6 @@ describe('Students E2E', () => {
     await app.init();
 
     prisma = app.get<PrismaService>(PrismaService);
-    // Limpa a tabela e insere dados de teste
     await prisma.student.deleteMany();
     await prisma.student.create({
       data: { name: 'Test Student', grade: 90, firstUniqueLetter: 'T' },
